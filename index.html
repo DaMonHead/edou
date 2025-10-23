@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中醫診所 SEN 兒童篩查系統</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <h1>中醫診所 SEN 篩查系統</h1>
+                </div>
+                <nav class="nav-menu">
+                    <button class="nav-btn active" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>首頁</span>
+                    </button>
+                    <button class="nav-btn" data-section="screening">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>篩查評估</span>
+                    </button>
+                    <button class="nav-btn" data-section="patients">
+                        <i class="fas fa-users"></i>
+                        <span>患者管理</span>
+                    </button>
+                    <button class="nav-btn" data-section="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>報告分析</span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="dashboard-header">
+                    <h2>系統概覽</h2>
+                    <p>歡迎使用中醫診所 SEN 兒童篩查系統</p>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-patients">0</h3>
+                            <p>總患者數</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="completed-assessments">0</h3>
+                            <p>已完成評估</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="high-risk-cases">0</h3>
+                            <p>高風險案例</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="today-assessments">0</h3>
+                            <p>今日評估</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>快速操作</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" onclick="startNewAssessment()">
+                            <i class="fas fa-plus"></i>
+                            <span>開始新評估</span>
+                        </button>
+                        <button class="action-btn secondary" onclick="viewRecentPatients()">
+                            <i class="fas fa-history"></i>
+                            <span>查看最近患者</span>
+                        </button>
+                        <button class="action-btn secondary" onclick="generateReport()">
+                            <i class="fas fa-file-alt"></i>
+                            <span>生成報告</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>最近活動</h3>
+                    <div class="activity-list" id="recent-activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>系統已準備就緒，可以開始進行 SEN 兒童篩查評估</p>
+                                <span class="activity-time">剛剛</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screening Section -->
+            <section id="screening" class="content-section">
+                <div class="section-header">
+                    <h2>SEN 兒童篩查評估</h2>
+                    <p>請填寫以下評估表單來評估兒童的特殊教育需求</p>
+                </div>
+
+                <div class="assessment-form">
+                    <form id="screening-form">
+                        <!-- Patient Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> 基本資料</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="child-name">兒童姓名 *</label>
+                                    <input type="text" id="child-name" name="childName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="child-age">年齡 *</label>
+                                    <input type="number" id="child-age" name="childAge" min="1" max="18" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="child-gender">性別 *</label>
+                                    <select id="child-gender" name="childGender" required>
+                                        <option value="">請選擇</option>
+                                        <option value="male">男</option>
+                                        <option value="female">女</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent-name">家長姓名 *</label>
+                                    <input type="text" id="parent-name" name="parentName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent-phone">聯絡電話 *</label>
+                                    <input type="tel" id="parent-phone" name="parentPhone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="assessment-date">評估日期 *</label>
+                                    <input type="date" id="assessment-date" name="assessmentDate" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Developmental Assessment -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-brain"></i> 發展評估</h3>
+                            <div class="assessment-category">
+                                <h4>語言發展</h4>
+                                <div class="question-group">
+                                    <label>1. 兒童是否能清楚表達自己的需求？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="language1" value="excellent"> 非常清楚</label>
+                                        <label><input type="radio" name="language1" value="good"> 清楚</label>
+                                        <label><input type="radio" name="language1" value="fair"> 一般</label>
+                                        <label><input type="radio" name="language1" value="poor"> 不清楚</label>
+                                    </div>
+                                </div>
+                                <div class="question-group">
+                                    <label>2. 兒童的詞彙量是否與同齡兒童相當？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="language2" value="excellent"> 超過同齡</label>
+                                        <label><input type="radio" name="language2" value="good"> 相當</label>
+                                        <label><input type="radio" name="language2" value="fair"> 略少</label>
+                                        <label><input type="radio" name="language2" value="poor"> 明顯不足</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="assessment-category">
+                                <h4>社交互動</h4>
+                                <div class="question-group">
+                                    <label>3. 兒童是否能與同齡兒童正常互動？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="social1" value="excellent"> 非常積極</label>
+                                        <label><input type="radio" name="social1" value="good"> 正常</label>
+                                        <label><input type="radio" name="social1" value="fair"> 一般</label>
+                                        <label><input type="radio" name="social1" value="poor"> 困難</label>
+                                    </div>
+                                </div>
+                                <div class="question-group">
+                                    <label>4. 兒童是否能理解並遵守基本規則？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="social2" value="excellent"> 完全理解</label>
+                                        <label><input type="radio" name="social2" value="good"> 大部分理解</label>
+                                        <label><input type="radio" name="social2" value="fair"> 部分理解</label>
+                                        <label><input type="radio" name="social2" value="poor"> 難以理解</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="assessment-category">
+                                <h4>認知能力</h4>
+                                <div class="question-group">
+                                    <label>5. 兒童的注意力集中時間是否正常？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="cognitive1" value="excellent"> 超過同齡</label>
+                                        <label><input type="radio" name="cognitive1" value="good"> 正常</label>
+                                        <label><input type="radio" name="cognitive1" value="fair"> 略短</label>
+                                        <label><input type="radio" name="cognitive1" value="poor"> 明顯不足</label>
+                                    </div>
+                                </div>
+                                <div class="question-group">
+                                    <label>6. 兒童是否能完成適合年齡的任務？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="cognitive2" value="excellent"> 超出預期</label>
+                                        <label><input type="radio" name="cognitive2" value="good"> 正常完成</label>
+                                        <label><input type="radio" name="cognitive2" value="fair"> 需要協助</label>
+                                        <label><input type="radio" name="cognitive2" value="poor"> 難以完成</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Behavioral Assessment -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-heart"></i> 行為評估</h3>
+                            <div class="assessment-category">
+                                <h4>情緒管理</h4>
+                                <div class="question-group">
+                                    <label>7. 兒童的情緒是否穩定？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="behavior1" value="excellent"> 非常穩定</label>
+                                        <label><input type="radio" name="behavior1" value="good"> 穩定</label>
+                                        <label><input type="radio" name="behavior1" value="fair"> 一般</label>
+                                        <label><input type="radio" name="behavior1" value="poor"> 不穩定</label>
+                                    </div>
+                                </div>
+                                <div class="question-group">
+                                    <label>8. 兒童是否能適當表達情緒？</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="behavior2" value="excellent"> 非常適當</label>
+                                        <label><input type="radio" name="behavior2" value="good"> 適當</label>
+                                        <label><input type="radio" name="behavior2" value="fair"> 一般</label>
+                                        <label><input type="radio" name="behavior2" value="poor"> 不適當</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-sticky-note"></i> 補充說明</h3>
+                            <div class="form-group">
+                                <label for="additional-notes">其他觀察或備註</label>
+                                <textarea id="additional-notes" name="additionalNotes" rows="4" placeholder="請描述任何其他觀察到的行為或特殊情況..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="saveDraft()">儲存草稿</button>
+                            <button type="submit" class="btn-primary">提交評估</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Patients Section -->
+            <section id="patients" class="content-section">
+                <div class="section-header">
+                    <h2>患者管理</h2>
+                    <div class="header-actions">
+                        <button class="btn-primary" onclick="addNewPatient()">
+                            <i class="fas fa-plus"></i>
+                            新增患者
+                        </button>
+                    </div>
+                </div>
+
+                <div class="patients-filters">
+                    <div class="filter-group">
+                        <label for="search-patients">搜尋患者</label>
+                        <input type="text" id="search-patients" placeholder="輸入姓名或電話號碼...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-risk">風險等級</label>
+                        <select id="filter-risk">
+                            <option value="">全部</option>
+                            <option value="low">低風險</option>
+                            <option value="medium">中風險</option>
+                            <option value="high">高風險</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="patients-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>年齡</th>
+                                <th>性別</th>
+                                <th>聯絡電話</th>
+                                <th>最後評估</th>
+                                <th>風險等級</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patients-table-body">
+                            <tr class="empty-state">
+                                <td colspan="7">
+                                    <div class="empty-message">
+                                        <i class="fas fa-users"></i>
+                                        <p>暫無患者資料</p>
+                                        <button class="btn-primary" onclick="addNewPatient()">新增第一個患者</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="content-section">
+                <div class="section-header">
+                    <h2>報告分析</h2>
+                    <div class="header-actions">
+                        <button class="btn-primary" onclick="generateReport()">
+                            <i class="fas fa-download"></i>
+                            生成報告
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-header">
+                            <h3>評估統計</h3>
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="report-content">
+                            <div class="stat-item">
+                                <span class="stat-label">總評估數</span>
+                                <span class="stat-value" id="total-assessments">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">本月新增</span>
+                                <span class="stat-value" id="monthly-assessments">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-header">
+                            <h3>風險分布</h3>
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="report-content">
+                            <div class="risk-distribution">
+                                <div class="risk-item low-risk">
+                                    <span class="risk-label">低風險</span>
+                                    <div class="risk-bar">
+                                        <div class="risk-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="risk-count" id="low-risk-count">0</span>
+                                </div>
+                                <div class="risk-item medium-risk">
+                                    <span class="risk-label">中風險</span>
+                                    <div class="risk-bar">
+                                        <div class="risk-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="risk-count" id="medium-risk-count">0</span>
+                                </div>
+                                <div class="risk-item high-risk">
+                                    <span class="risk-label">高風險</span>
+                                    <div class="risk-bar">
+                                        <div class="risk-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="risk-count" id="high-risk-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-header">
+                            <h3>年齡分布</h3>
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="report-content">
+                            <div class="age-distribution" id="age-distribution">
+                                <div class="age-group">
+                                    <span class="age-label">3-5歲</span>
+                                    <div class="age-bar">
+                                        <div class="age-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="age-count">0</span>
+                                </div>
+                                <div class="age-group">
+                                    <span class="age-label">6-8歲</span>
+                                    <div class="age-bar">
+                                        <div class="age-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="age-count">0</span>
+                                </div>
+                                <div class="age-group">
+                                    <span class="age-label">9-12歲</span>
+                                    <div class="age-bar">
+                                        <div class="age-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="age-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-assessments">
+                    <h3>最近評估</h3>
+                    <div class="assessments-list" id="recent-assessments-list">
+                        <div class="empty-message">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>暫無評估記錄</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Patient Detail Modal -->
+    <div id="patient-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>患者詳情</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="patient-detail-content">
+                <!-- Patient details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
